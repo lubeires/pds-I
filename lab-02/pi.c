@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <math.h>
 
-int main() {
+int main()
+{
     double x, pi = 0;
     int i = 0;
     scanf("%lf", &x);
-    do {
+    do
+    {
         pi += pow(-1, i) * 4 / (2 * i + 1);
         i++;
     } while (fabs(pi - M_PI) > x);
