@@ -6,31 +6,38 @@ const int DIA_FINAL = 17;
 const int MES_FINAL = 9;
 const int ANO_FINAL = 2020;
 
-int calcular_dias_transcorridos(int dia, int mes, int ano)
+int bissexto(int ano)
 {
-    int bissextos = 0, dias_transcorridos;
-    for (int i = ano; i <= ANO_FINAL; i++)
-        if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0))
-            bissextos++;
-    dias_transcorridos = (ANO_FINAL - ano) * 365 + bissextos;
+    return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+}
 
-    if (mes < MES_FINAL)
-        for (int i = mes; i < MES_FINAL; i++)
-            dias_transcorridos += QTD_DIAS_MES[i - 1];
+unsigned long int calcular_dias_transcorridos(int dia, int mes, int ano)
+{
+    unsigned long int dias_transcorridos = 0;
 
-    else if (mes > MES_FINAL)
-        for (int i = MES_FINAL; i < mes; i++)
-            dias_transcorridos -= QTD_DIAS_MES[i - 1];
+    while (ano < ANO_FINAL || (ano == ANO_FINAL && mes < MES_FINAL) || (ano == ANO_FINAL && mes == MES_FINAL && dia < DIA_FINAL))
+    {
+        dia++;
+        dias_transcorridos++;
+        if (dia > QTD_DIAS_MES[mes - 1] + (mes == 2 ? bissexto(ano) : 0))
+        {
+            dia = 1;
+            mes++;
+            if (mes > 12)
+            {
+                mes = 1;
+                ano++;
+            }
+        }
+    }
 
-    dias_transcorridos += DIA_FINAL - dia + 1;
-
-    return dias_transcorridos;
+    return dias_transcorridos + 1;
 }
 
 int main()
 {
     int dia, mes, ano;
     while (scanf("%d %d %d", &dia, &mes, &ano) != EOF)
-        printf("%d\n", calcular_dias_transcorridos(dia, mes, ano));
+        printf("%lu\n", calcular_dias_transcorridos(dia, mes, ano));
     return 0;
 }

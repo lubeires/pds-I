@@ -2,8 +2,7 @@
 
 int bissexto(int ano)
 {
-    int resultado = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0) ? 1 : 0;
-    return resultado;
+    return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
 }
 
 int main()
